@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,9 @@ public class Role {
 	private ERole name;
 
 	@ManyToMany(targetEntity = User.class, mappedBy = "roles")
+	@JsonIgnore
 	private List<User> users;
+	public Role() {
+
+	}
 }

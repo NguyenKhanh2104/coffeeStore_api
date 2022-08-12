@@ -90,4 +90,14 @@ public class CartHelper {
             return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage(), ""));
         }
     }
+    public List<CartDTO> findAll(){
+        List<CartDTO> rs = new ArrayList<>();
+        List<Cart> list = cartService.findAll();
+        for (Cart c: list
+             ) {
+            CartDTO dto = cartMapper.toDto(c);
+            rs.add(dto);
+        }
+        return rs;
+    }
 }

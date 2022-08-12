@@ -22,14 +22,11 @@ public class CartMapper {
         dto.setPrice(cart.getPrice());
         dto.setPriceProduct(cart.getProduct().getPrice());
         dto.setQty(cart.getQty());
-        dto.setUser_id(cart.getUser().getId());
         return dto;
     }
     public Cart toEntity(CartDTO cartDTO) throws Exception {
         Cart c = new Cart();
-        c.setId(cartDTO.getId());
         c.setPrice(cartDTO.getPrice());
-        c.setUser(userService.findById(cartDTO.getUser_id()));
         c.setProduct(productService.findByName(cartDTO.getNameProduct()));
         c.setQty(cartDTO.getQty());
         return c;

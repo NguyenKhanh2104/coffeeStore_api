@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class CartDTO {
     Long id;
-    Long user_id;
     String nameProduct;
     double priceProduct;
     double price;
