@@ -16,21 +16,9 @@ public class Cart {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-
     private Integer qty;
     private double price;
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     User user;
-    @Transient
-     private  String bookName;
-    @Transient
-    private double productPrice;
-
-    public String getBookName() {
-        return product.getName();
-    }
-    public double getProductPrice(){
-        return product.getPrice();
-    }
 }

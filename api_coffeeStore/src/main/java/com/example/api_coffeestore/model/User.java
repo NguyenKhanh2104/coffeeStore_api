@@ -1,9 +1,11 @@
 package com.example.api_coffeestore.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.domain.jaxb.OrderAdapter;
+
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class User {
     @Id
     @Column(name = "id", nullable = false)
@@ -39,7 +42,7 @@ public class User {
 
     @Column(name = "address")
     private String address;
-
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "birthday")
     private Date birthday;
 

@@ -18,7 +18,7 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderitem;
+    private List<OrderItem> orderItem;
     private String payment_type;
     @ManyToOne
     @JoinColumn(name = "user_id")

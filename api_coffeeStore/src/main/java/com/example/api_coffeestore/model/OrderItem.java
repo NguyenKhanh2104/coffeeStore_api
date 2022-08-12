@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class   OrderItem {
+public class OrderItem {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
