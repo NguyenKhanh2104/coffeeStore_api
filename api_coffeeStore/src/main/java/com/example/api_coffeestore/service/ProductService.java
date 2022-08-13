@@ -10,4 +10,7 @@ public interface ProductService {
    Product findById(Long id)throws Exception ;
    Product findByName(String name) ;
    List<Product> findByCategory(Integer id);
+    Product updateProduct(Long   id, Product productDetail) throws Exception;
+    Product create(Product product);
+    void remove(Long id);
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,7 +20,7 @@ public class Product {
     private String description;
     private String img;
     private String qty;
-    private Date dateCreate;
+    private LocalDate dateCreate;
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;

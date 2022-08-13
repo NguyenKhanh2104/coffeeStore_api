@@ -41,4 +41,26 @@ public class productServiceImpl implements ProductService {
         }
         return rs;
     }
+
+    @Override
+    public Product updateProduct(Long id, Product productDetail) throws Exception {
+        Product product = productRepo.findById(id).orElseThrow(() -> new Exception("Product is not found"));
+        product.setName(productDetail.getName());
+        product.setImg(productDetail.getImg());
+        product.setQty(productDetail.getQty());
+        product.setCategory(productDetail.getCategory());
+        product.setDescription(productDetail.getDescription());
+        product.setPrice(productDetail.getPrice());
+        return productRepo.save(product);
+    }
+
+    @Override
+    public Product create(Product product) {
+        return productRepo.save(product);
+    }
+
+    @Override
+    public void remove(Long id) {
+        productRepo.deleteById(id);
+    }
 }

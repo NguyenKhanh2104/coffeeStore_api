@@ -14,7 +14,7 @@ public class ProductMapper {
     @Autowired
     CategoryService categoryService;
 
-   public  ProductDTO toDto(Product product) {
+    public ProductDTO toDto(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
         dto.setCategory(product.getCategory().getId());
@@ -25,5 +25,19 @@ public class ProductMapper {
         dto.setName(product.getName());
         dto.setQty(product.getQty());
         return dto;
+    }
+
+    public Product toEntity(ProductDTO dto) throws Exception {
+        Product entity = new Product();
+        entity.setId(dto.getId());
+        entity.setQty(dto.getQty());
+        entity.setDescription(dto.getDescription());
+        Category cate = categoryService.findById(dto.getCategory());
+        entity.setCategory(cate);
+        entity.setImg(dto.getImg());
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setDateCreate(dto.getDateCreate());
+        return entity;
     }
 }

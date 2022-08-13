@@ -7,13 +7,16 @@ import com.example.api_coffeestore.helper.Categoryhelper;
 import com.example.api_coffeestore.helper.ProductHelper;
 import com.example.api_coffeestore.model.Cart;
 import com.example.api_coffeestore.model.Category;
+import com.example.api_coffeestore.model.Product;
 import com.example.api_coffeestore.payload.response.ApiResponse;
 import com.example.api_coffeestore.security.ShoppingConfiguration;
 import com.example.api_coffeestore.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jms.artemis.ArtemisProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class StaffController {
     CartHelper cartHelper;
     @Autowired
     CartService cartService;
+
     @GetMapping("/allProduct")
     public List<ProductDTO> getAllBook() {
         return productHelper.getAll();
@@ -40,8 +44,8 @@ public class StaffController {
     }
 
     @RequestMapping("addCart")
-    public ResponseEntity<?> addCartWithProduct(@RequestBody HashMap<String,String> addCartRequest) {
-       return cartHelper.addCartWithProduct(addCartRequest);
+    public ResponseEntity<?> addCartWithProduct(@RequestBody HashMap<String, String> addCartRequest) {
+        return cartHelper.addCartWithProduct(addCartRequest);
 
     }
 
@@ -69,9 +73,23 @@ public class StaffController {
     public List<Category> getAllCategory() {
         return categoryhelper.findAll();
     }
+
     @GetMapping("/findAllCart")
-    public List<CartDTO> findAll(){
+    public List<CartDTO> findAll() {
         return cartHelper.findAll();
     }
 
+    @PutMapping("/updateProduct/{id}")
+    public Product updateProduct(@PathVariable(value = "id") Long id,
+                                        @Valid @RequestBody ProductDTO productDetail) throws Exception {
+        return productHelper.updateProduct(id, productDetail);
+    }
+    @PostMapping(value = "/addProduct", consumes = {"application/json"})
+    public Product createBook(@Valid @RequestBody ProductDTO productDto) throws Exception {
+        return productHelper.createProduct(productDto);
+    }
+    @DeleteMapping("/removeProduct/{id}")
+    public void deleteBook(@PathVariable(value = "id") Long id) {
+        productHelper.removeProduct(id);
+    }
 }

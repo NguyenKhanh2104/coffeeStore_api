@@ -21,4 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAll() {
         return categoryRepo.findAll();
     }
+
+    @Override
+    public Category findById(Integer id) throws Exception {
+        return categoryRepo.findById(id).orElseThrow(() -> new Exception("Category is not found"));
+    }
 }
