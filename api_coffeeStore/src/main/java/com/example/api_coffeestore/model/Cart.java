@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
@@ -21,6 +22,7 @@ public class Cart {
     private Integer qty;
     private double price;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id",nullable = false)
     User user;
 }

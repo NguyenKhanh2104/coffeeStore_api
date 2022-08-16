@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class OrderItem {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer qty;
     @OneToOne

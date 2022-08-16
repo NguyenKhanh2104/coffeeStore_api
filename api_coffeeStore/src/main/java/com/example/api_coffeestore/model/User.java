@@ -8,16 +8,13 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
-public class User {
+public class    User {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +32,7 @@ public class User {
     private String phone;
 
     @Column(name = "fullname")
-    private String fullname;
+    private String fullName;
 
     @Column(name = "img")
     private String img;
@@ -55,14 +52,14 @@ public class User {
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new LinkedHashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
-    public User( String username,String email, String password , String phone, String fullname, String img, String address, Date birthday, String sex) {
+    public User( String username,String email, String password , String phone, String fullName, String img, String address, Date birthday, String sex) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.img = img;
         this.address = address;
         this.birthday = birthday;

@@ -23,6 +23,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+
     private double totalPrice;
     @DateTimeFormat(fallbackPatterns = "dd/MM/yyyy")
     private Date dateCreate;

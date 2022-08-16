@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.service.impl;
 
+import com.example.api_coffeestore.model.Product;
 import com.example.api_coffeestore.model.User;
 import com.example.api_coffeestore.repository.UserRepo;
 import com.example.api_coffeestore.service.UserService;
@@ -31,5 +32,29 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User updateUser(Long id, User user) throws Exception {
+        User u = userRepository.findById(id).orElseThrow(() -> new Exception("User is not found"));
+        u.setAddress(user.getAddress());
+        u.setBirthday(user.getBirthday());
+        u.setEmail(user.getEmail());
+        u.setPhone(user.getPhone());
+        u.setFullName(user.getFullName());
+        u.setRoles(user.getRoles());
+        u.setUsername(user.getUsername());
+        u.setSex(user.getSex());
+        return userRepository.save(u);
+    }
+
+    @Override
+    public void remove(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public User create(User u) {
+        return userRepository.save(u);
     }
 }

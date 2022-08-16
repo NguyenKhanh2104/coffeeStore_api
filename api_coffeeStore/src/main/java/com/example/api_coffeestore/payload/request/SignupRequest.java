@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.payload.request;
 
+import com.example.api_coffeestore.model.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class SignupRequest {
     @Email
     private String email;
     
-    private Set<String> role;
+    private ERole role;
     
     @NotBlank
     @Size(min = 6, max = 40)
@@ -33,14 +34,11 @@ public class SignupRequest {
     @NotBlank
     private String phone;
     @NotBlank
-    private String fullname;
-    @NotBlank
+    private String fullName;
     private String img;
-    @NotBlank
     private String address;
     @NotBlank
     private String sex;
-    @NotBlank
     private Date birthday;
 
 }
