@@ -38,4 +38,15 @@ public class OrderItemHelper {
         return rs;
     }
 
+    public List<OrderItemDTO> getOrderItemByOrderId(String id) {
+        List<OrderItemDTO> rs = new ArrayList<>();
+        List<OrderItem> list = orderItemService.getOrderItemByOrderId(id);
+        for (OrderItem item : list
+        ) {
+            OrderItemDTO dto = orderItemMapper.toDto(item);
+            rs.add(dto);
+
+        }
+        return rs;
+    }
 }

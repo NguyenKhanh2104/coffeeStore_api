@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class OrderDTO {
     String id;
-//    List<OrderItemDTO> orderItem;
-    Long user;
+    Integer quantity;
+    String fullName;
     double totalPrice;
     Date dateCreate;
     String note;

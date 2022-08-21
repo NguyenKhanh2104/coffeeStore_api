@@ -31,13 +31,9 @@ public class StaffController {
     @Autowired
     CartHelper cartHelper;
     @Autowired
-    CartService cartService;
-    @Autowired
     OrderService orderService;
-    @Autowired
-    UserService userService;
-    @Autowired
-    OrderItemService orderItemService;
+
+
     @Autowired
     OrderHelper orderHelper;
     @Autowired
@@ -91,69 +87,8 @@ public class StaffController {
 
     @RequestMapping("checkout")
     public ResponseEntity<?> checkout_order(@RequestBody HashMap<String, String> addCartRequest) {
-        try {
-            String keys[] = {"userId", "total_price", "pay_type", "note"};
-            if (ShoppingConfiguration.validationWithHashMap(keys, addCartRequest)) {
-
-            }
-            Long user_Id = Long.parseLong(addCartRequest.get("userId"));
-            double total_amt = Double.parseDouble(addCartRequest.get("total_price"));
-            if (orderService.checkTotalAmountAgainstCart(total_amt, user_Id)) {
-                double total = 0;
-                List<Cart> cartItems = cartService.getCartByUserId(user_Id);
-                for (Cart a : cartItems
-                ) {
-                    System.err.println("tron gio hang co " + a);
-                }
-                List<OrderItem> tmp = new ArrayList<>();
-                List<Order> listCheckout = new ArrayList<>();
-                Order checkout = new Order();
-                checkout.setUser(userService.findById(user_Id));
-                checkout.setNote(addCartRequest.get("note"));
-                checkout.setPayment_type(addCartRequest.get("pay_type"));
-                Date date = new Date();
-                checkout.setDateCreate(date);
-                String da = String.valueOf(date.getTime());
-                checkout.setId("HD" + da);
-                checkout = orderService.saveProductsForCheckout(checkout);
-                for (Cart addCart : cartItems) {
-                    OrderItem checkout_item = new OrderItem();
-
-                    checkout_item.setPrice(addCart.getPrice());
-                    checkout_item.setProduct(addCart.getProduct());
-                    checkout_item.setQty(addCart.getQty());
-                    checkout_item.setOrder(checkout);
-                    total += addCart.getPrice();
-                    tmp.add(checkout_item);
-                }
-                checkout.setTotalPrice(total);
-                checkout.setOrderItem(tmp);
-//                checkoutItemService.saveCheckoutItem(tmp);
-                for (OrderItem c : tmp
-                ) {
-
-                    orderItemService.save(c);
-                    System.err.println("phan tu da them " + c);
-                }
-
-                orderService.saveProductsForCheckout(checkout);
-                cartService.removeAllCartByUserId(user_Id);
-                orderService.getAllCheckoutByUserId(user_Id);
-                System.out.println("da xoa cart");
-                return ResponseEntity.ok(new ApiResponse("Order placed successfully", ""));
-            } else {
-                throw new Exception("Total amount is mismatch");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage(), ""));
-        }
+       return orderHelper.checkout_order(addCartRequest);
     }
-
-    //    @GetMapping("/getOrder")
-//    public OrderDTO getLastOrder() {
-//        return orderHelper.getLatsOrder();
-//    }
     @GetMapping("/lastOrder")
     public List<OrderDTO> getLastOrder() {
 

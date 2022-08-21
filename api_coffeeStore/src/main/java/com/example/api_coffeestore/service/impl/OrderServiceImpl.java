@@ -1,6 +1,7 @@
 package com.example.api_coffeestore.service.impl;
 
 import com.example.api_coffeestore.model.Order;
+import com.example.api_coffeestore.model.Product;
 import com.example.api_coffeestore.model.User;
 import com.example.api_coffeestore.repository.CartRepo;
 import com.example.api_coffeestore.repository.OrderRepo;
@@ -74,6 +75,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getById(String id) throws Exception {
         return orderRepo.findById(id).orElseThrow(() -> new Exception("order is not found"));
+    }
+
+    @Override
+    public Order updateOrder(String id, Order o) throws Exception {
+        Order order = orderRepo.findById(id).orElseThrow(() -> new Exception("Order is not found"));
+        order.setPayment_type(o.getPayment_type());
+        order.setNote(o.getNote());
+        return orderRepo.save(order);
+    }
+
+    @Override
+    public void remove(String id) {
+        orderRepo.deleteById(id);
     }
 
 

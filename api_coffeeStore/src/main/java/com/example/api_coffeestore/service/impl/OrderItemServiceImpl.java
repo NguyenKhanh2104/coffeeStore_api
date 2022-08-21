@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.service.impl;
 
+import com.example.api_coffeestore.dto.OrderItemDTO;
 import com.example.api_coffeestore.model.Order;
 import com.example.api_coffeestore.model.OrderItem;
 import com.example.api_coffeestore.repository.OrderItemRepo;
@@ -36,11 +37,6 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepo.save(item);
     }
 
-    @Override
-    public List<OrderItem> list() {
-        return orderItemRepo.findAll();
-    }
-
 //    @Override
 //    public List<OrderItem> getByOrderId(String id) {
 //        List<OrderItem> list = orderItemRepo.getByOrderId(id);
@@ -74,5 +70,18 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public List<OrderItem> findAll() {
         return orderItemRepo.findAll();
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemByOrderId(String id) {
+        List<OrderItem> list = this.findAll();
+        List<OrderItem> rs = new ArrayList<>();
+        for (OrderItem item:list
+             ) {
+            if(item.getOrder().getId().equals(id)){
+                rs.add(item);
+            }
+        }
+        return rs;
     }
 }

@@ -13,4 +13,7 @@ public interface OrderService {
     List<Order> getCheckoutsByUserId(Long user_id);
     Order getById(String id) throws Exception;
 
+    Order updateOrder(String id, Order o) throws Exception;
+
+    void remove(String id);
 }

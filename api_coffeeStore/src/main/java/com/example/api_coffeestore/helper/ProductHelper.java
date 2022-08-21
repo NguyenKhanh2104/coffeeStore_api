@@ -1,7 +1,9 @@
 package com.example.api_coffeestore.helper;
 
+import com.example.api_coffeestore.dto.OrderDTO;
 import com.example.api_coffeestore.dto.ProductDTO;
 import com.example.api_coffeestore.mapper.ProductMapper;
+import com.example.api_coffeestore.model.Order;
 import com.example.api_coffeestore.model.Product;
 import com.example.api_coffeestore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +65,5 @@ public class ProductHelper {
     public void removeProduct(Long id) {
             productService.remove(id);
     }
+
 }

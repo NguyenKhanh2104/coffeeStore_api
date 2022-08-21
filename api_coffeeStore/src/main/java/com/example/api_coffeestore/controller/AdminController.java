@@ -1,16 +1,13 @@
 package com.example.api_coffeestore.controller;
 
-import com.example.api_coffeestore.dto.CartDTO;
-import com.example.api_coffeestore.dto.ProductDTO;
-import com.example.api_coffeestore.dto.UserDTO;
-import com.example.api_coffeestore.helper.CartHelper;
-import com.example.api_coffeestore.helper.Categoryhelper;
-import com.example.api_coffeestore.helper.ProductHelper;
-import com.example.api_coffeestore.helper.UserHelper;
+import com.example.api_coffeestore.dto.*;
+import com.example.api_coffeestore.helper.*;
 import com.example.api_coffeestore.model.Category;
+import com.example.api_coffeestore.model.Order;
 import com.example.api_coffeestore.model.Product;
 import com.example.api_coffeestore.model.User;
 import com.example.api_coffeestore.service.CartService;
+import com.example.api_coffeestore.service.OrderItemService;
 import com.example.api_coffeestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +27,12 @@ public class AdminController {
     CartHelper cartHelper;
     @Autowired
     UserHelper userHelper;
+    @Autowired
+    OrderHelper orderHelper;
+    @Autowired
+    OrderItemService orderItemService;
+    @Autowired
+    OrderItemHelper orderItemHelper;
 
     @GetMapping("/allProduct")
     public List<ProductDTO> getAllBook() {
@@ -81,5 +84,26 @@ public class AdminController {
     @PostMapping(value = "/addUser", consumes = {"application/json"})
     public User createUser(@Valid @RequestBody UserDTO userDto) throws Exception {
         return userHelper.createUser(userDto);
+    }
+
+    @GetMapping("/allOrder")
+    public List<OrderDTO> getAllOrder() {
+        return orderHelper.findAll();
+    }
+
+    @PutMapping("/updateOrder/{id}")
+    public Order updateOrder(@PathVariable(value = "id") String id,
+                             @Valid @RequestBody OrderDTO orderDetail) throws Exception {
+        return orderHelper.updateOrder(id, orderDetail);
+    }
+
+    @DeleteMapping("/removeOrder/{id}")
+    public void deleteOrder(@PathVariable(value = "id") String id) {
+        orderHelper.removeOrder(id);
+    }
+
+    @GetMapping("/getOrderItem/{id}")
+    public List<OrderItemDTO> getOrderItemByOrderId(@PathVariable("id") String id) {
+        return orderItemHelper.getOrderItemByOrderId(id);
     }
 }

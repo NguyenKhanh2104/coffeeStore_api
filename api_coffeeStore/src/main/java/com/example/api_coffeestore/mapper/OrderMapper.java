@@ -25,17 +25,26 @@ OrderItemMapper orderItemMapper;
         dto.setNote(order.getNote());
         dto.setPayment_type(order.getPayment_type());
         dto.setDateCreate(order.getDateCreate());
-        dto.setUser(order.getUser().getId());
+        dto.setFullName(order.getUser().getFullName());
         dto.setTotalPrice(order.getTotalPrice());
-
-//        List<OrderItemDTO> itemDto = new ArrayList<>();
-//        for (OrderItem o: item
-//             ) {
-//            OrderItemDTO orderItemDto = orderItemMapper.toDto(o);
-//            itemDto.add(orderItemDto);
-//        }
-//        dto.setOrderItem(itemDto);
+        int count = 0;
+        List<OrderItem> list = orderItemService.findAll();
+        for (OrderItem item:list
+             ) {
+            if(item.getOrder().getId()==order.getId()){
+                count+= item.getQty();
+                dto.setQuantity(count);
+            }
+        }
         return dto;
 
+    }
+
+    public Order toEntity(OrderDTO orderDetail) {
+        Order order = new Order();
+        order.setId(orderDetail.getId());
+        order.setNote(orderDetail.getNote());
+        order.setPayment_type(orderDetail.getPayment_type());
+        return order;
     }
 }
