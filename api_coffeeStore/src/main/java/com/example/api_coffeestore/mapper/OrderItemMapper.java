@@ -7,7 +7,9 @@ import com.example.api_coffeestore.model.OrderItem;
 import com.example.api_coffeestore.service.ProductService;
 import com.example.api_coffeestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderItemMapper {
     @Autowired
     UserService userService;

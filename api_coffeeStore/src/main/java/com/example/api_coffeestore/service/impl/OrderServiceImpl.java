@@ -54,11 +54,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> listCheckout() {
+    public List<Order> findAll() {
         return orderRepo.findAll();
     }
+
     @Override
-    public Order getById(Long id)throws Exception {
-        return this.orderRepo.findById(id).orElseThrow(() ->new Exception("Order is not found"));
+    public List<Order> getLast() {
+        List<Order> list = this.orderRepo.findAll();
+        List<Order> rs = new ArrayList<>();
+        rs.add(list.get(list.size()-1));
+        return rs;
     }
+
+    @Override
+    public List<Order> getCheckoutsByUserId(Long user_id) {
+        return orderRepo.getByUserId(user_id);
+    }
+
+    @Override
+    public Order getById(String id) throws Exception {
+        return orderRepo.findById(id).orElseThrow(() -> new Exception("order is not found"));
+    }
+
+
 }

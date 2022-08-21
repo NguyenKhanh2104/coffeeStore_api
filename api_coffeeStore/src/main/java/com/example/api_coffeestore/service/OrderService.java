@@ -8,6 +8,9 @@ public interface OrderService {
     Boolean checkTotalAmountAgainstCart(double totalAmount, Long userId);
     Order saveProductsForCheckout(Order tmp) throws Exception;
     List<Order> getAllCheckoutByUserId(Long userId);
-    List<Order> listCheckout();
-    Order getById(Long id) throws Exception;
+    List<Order> findAll();
+    List<Order> getLast();
+    List<Order> getCheckoutsByUserId(Long user_id);
+    Order getById(String id) throws Exception;
+
 }

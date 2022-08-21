@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.engine.transaction.jta.platform.internal.JOnASJtaPlatform;
@@ -16,11 +17,12 @@ import java.util.List;
 public class Order {
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItem;
     private String payment_type;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     User user;
 

@@ -10,7 +10,7 @@ public interface OrderItemService {
     List<OrderItem> saveOrderItem(List<OrderItem> checkout_item);
     OrderItem save(OrderItem checkout_item);
     List<OrderItem> list();
-//    List<OrderItem> getByOrderId(String checkoutId);
-    List<OrderItem> getOrderId(Long id);
-    List<OrderItem> getProductId(Long id);
+    OrderItem getOrderId(String id);
+    List<OrderItem> getProductId(String id);
+    List<OrderItem> findAll();
 }

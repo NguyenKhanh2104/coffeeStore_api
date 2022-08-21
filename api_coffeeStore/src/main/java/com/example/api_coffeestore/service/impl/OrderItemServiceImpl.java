@@ -53,18 +53,13 @@ public class OrderItemServiceImpl implements OrderItemService {
 //    }
 
     @Override
-    public List<OrderItem> getOrderId(Long id) {
-        List<OrderItem> list = orderItemRepo.getByOrderId(id);
-        List<OrderItem> newList = new ArrayList<>();
-        for (OrderItem checkoutItem : list
-        ) {
-            newList.add(checkoutItem);
-        }
-        return newList;
+    public OrderItem getOrderId(String id) {
+        OrderItem item = orderItemRepo.getByOrderId(id);
+        return item;
     }
 
     @Override
-    public List<OrderItem> getProductId(Long id) {
+    public List<OrderItem> getProductId(String id) {
         List<OrderItem> listItem = orderItemRepo.findAll();
         List<OrderItem> rs = new ArrayList<>();
         for (OrderItem c : listItem
@@ -74,5 +69,10 @@ public class OrderItemServiceImpl implements OrderItemService {
             }
         }
         return rs;
+    }
+
+    @Override
+    public List<OrderItem> findAll() {
+        return orderItemRepo.findAll();
     }
 }

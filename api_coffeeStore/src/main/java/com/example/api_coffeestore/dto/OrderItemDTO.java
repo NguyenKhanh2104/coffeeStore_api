@@ -8,7 +8,7 @@ public class OrderItemDTO {
     Integer quantity;
     String productName;
     double productPrice;
-    Long order_id;
+    String order_id;
     double price;
 
 }

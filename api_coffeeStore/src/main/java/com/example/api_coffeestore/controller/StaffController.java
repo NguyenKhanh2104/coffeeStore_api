@@ -1,10 +1,10 @@
 package com.example.api_coffeestore.controller;
 
 import com.example.api_coffeestore.dto.CartDTO;
+import com.example.api_coffeestore.dto.OrderDTO;
+import com.example.api_coffeestore.dto.OrderItemDTO;
 import com.example.api_coffeestore.dto.ProductDTO;
-import com.example.api_coffeestore.helper.CartHelper;
-import com.example.api_coffeestore.helper.Categoryhelper;
-import com.example.api_coffeestore.helper.ProductHelper;
+import com.example.api_coffeestore.helper.*;
 import com.example.api_coffeestore.model.*;
 import com.example.api_coffeestore.payload.response.ApiResponse;
 import com.example.api_coffeestore.security.ShoppingConfiguration;
@@ -38,6 +38,11 @@ public class StaffController {
     UserService userService;
     @Autowired
     OrderItemService orderItemService;
+    @Autowired
+    OrderHelper orderHelper;
+    @Autowired
+    OrderItemHelper orderItemHelper;
+
     @GetMapping("/allProduct")
     public List<ProductDTO> getAllBook() {
         return productHelper.getAll();
@@ -103,13 +108,13 @@ public class StaffController {
                 List<OrderItem> tmp = new ArrayList<>();
                 List<Order> listCheckout = new ArrayList<>();
                 Order checkout = new Order();
-                Long orderId = getOrderId();
                 checkout.setUser(userService.findById(user_Id));
-                checkout.setId(orderId);
                 checkout.setNote(addCartRequest.get("note"));
                 checkout.setPayment_type(addCartRequest.get("pay_type"));
                 Date date = new Date();
                 checkout.setDateCreate(date);
+                String da = String.valueOf(date.getTime());
+                checkout.setId("HD" + da);
                 checkout = orderService.saveProductsForCheckout(checkout);
                 for (Cart addCart : cartItems) {
                     OrderItem checkout_item = new OrderItem();
@@ -145,8 +150,22 @@ public class StaffController {
         }
     }
 
-    private Long getOrderId() {
-        Random r = new Random(System.currentTimeMillis());
-        return Long.valueOf(10000 + r.nextInt(20000));
+    //    @GetMapping("/getOrder")
+//    public OrderDTO getLastOrder() {
+//        return orderHelper.getLatsOrder();
+//    }
+    @GetMapping("/lastOrder")
+    public List<OrderDTO> getLastOrder() {
+
+        return orderHelper.getLast();
+    }
+
+    @GetMapping("/lastOrderItem")
+    public List<OrderItemDTO> getLastOrderItem() {
+        return orderItemHelper.getByOrderId();
+    }
+    @RequestMapping("getCheckoutsByUserId")
+    public ResponseEntity<?> getCheckoutsByUserId(@RequestBody HashMap<String, String> getCheckoutRequest) {
+        return orderHelper.getCheckoutsByUserId(getCheckoutRequest);
     }
 }

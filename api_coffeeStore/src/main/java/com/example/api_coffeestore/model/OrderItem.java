@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class OrderItem {
     @JoinColumn(name = "product_id")
     Product product;
     @ManyToOne()
+    @JsonIgnore
     @JoinColumn(name = "order_id")
     private Order order;
     private double price;

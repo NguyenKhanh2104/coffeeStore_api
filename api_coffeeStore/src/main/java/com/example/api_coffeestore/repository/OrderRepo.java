@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepo extends JpaRepository<Order,Long> {
+public interface OrderRepo extends JpaRepository<Order,String> {
     @Query("Select checkCart  FROM Order checkCart WHERE checkCart.user.id=:user_id")
     List<Order> getByUserId(@Param("user_id")Long user_id);
 }
