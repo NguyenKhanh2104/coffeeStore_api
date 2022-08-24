@@ -9,7 +9,7 @@ public interface UserService {
     User findById(Long userId) throws Exception;
     List<User> findAll();
     User updateUser(Long   id, User user) throws Exception;
-
+    User findByFullName(String fullName);
     void remove(Long id);
 
     User create(User u);

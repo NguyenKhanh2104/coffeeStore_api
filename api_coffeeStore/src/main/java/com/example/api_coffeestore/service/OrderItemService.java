@@ -13,6 +13,6 @@ public interface OrderItemService {
     OrderItem getOrderId(String id);
     List<OrderItem> getProductId(String id);
     List<OrderItem> findAll();
-
+    void removeByOrderId(String id);
     List<OrderItem> getOrderItemByOrderId(String id);
 }

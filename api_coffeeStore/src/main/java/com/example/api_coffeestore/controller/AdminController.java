@@ -70,11 +70,6 @@ public class AdminController {
         return userHelper.getAll();
     }
 
-    @PutMapping("/updateUser/{id}")
-    public User updateProduct(@PathVariable(value = "id") Long id,
-                              @Valid @RequestBody UserDTO userDto) throws Exception {
-        return userHelper.updateUser(id, userDto);
-    }
 
     @DeleteMapping("/removeUser/{id}")
     public void deleteUser(@PathVariable(value = "id") Long id) {
@@ -89,6 +84,12 @@ public class AdminController {
     @GetMapping("/allOrder")
     public List<OrderDTO> getAllOrder() {
         return orderHelper.findAll();
+    }
+
+    @PutMapping("/updateUser/{id}")
+    public User updateProduct(@PathVariable(value = "id") Long id,
+                              @Valid @RequestBody UserDTO userDto) throws Exception {
+        return userHelper.updateUser(id, userDto);
     }
 
     @PutMapping("/updateOrder/{id}")
@@ -106,4 +107,5 @@ public class AdminController {
     public List<OrderItemDTO> getOrderItemByOrderId(@PathVariable("id") String id) {
         return orderItemHelper.getOrderItemByOrderId(id);
     }
+
 }

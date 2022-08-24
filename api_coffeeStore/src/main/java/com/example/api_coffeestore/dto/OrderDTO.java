@@ -12,6 +12,7 @@ public class OrderDTO {
     Integer quantity;
     String fullName;
     double totalPrice;
+    Long userId;
     Date dateCreate;
     String note;
     String payment_type;

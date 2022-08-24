@@ -49,6 +49,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public User findByFullName(String fullName) {
+        return userRepository.findByFullName(fullName);
+    }
+
+    @Override
     public void remove(Long id) {
         userRepository.deleteById(id);
     }

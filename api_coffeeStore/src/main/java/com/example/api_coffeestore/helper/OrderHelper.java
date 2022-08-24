@@ -141,11 +141,15 @@ public class OrderHelper {
 
     public Order updateOrder(String id, OrderDTO orderDetail) throws Exception {
         Order o = orderMapper.toEntity(orderDetail);
+        Order o2 = orderService.getById(id);
+        o.setUser(o2.getUser());
         return orderService.updateOrder(id,o);
     }
 
     public void removeOrder(String id) {
+        orderItemService.removeByOrderId(id);
         orderService.remove(id);
+
     }
 
 

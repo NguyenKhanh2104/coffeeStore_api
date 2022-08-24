@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User,Long> {
     @Query(value = "SELECT b FROM User b WHERE b.username IN :username")
     Optional<User> findByUsername(String username);
+    @Query(value = "SELECT b FROM User b WHERE b.fullName IN :fullName")
+    User findByFullName(String fullName);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
 }

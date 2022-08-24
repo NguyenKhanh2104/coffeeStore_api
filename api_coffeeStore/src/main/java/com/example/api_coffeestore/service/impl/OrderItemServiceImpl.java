@@ -73,6 +73,16 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    public void removeByOrderId(String id) {
+        List<OrderItem> list = this.getOrderItemByOrderId(id);
+        for (OrderItem i:list
+             ) {
+            orderItemRepo.delete(i);
+        }
+
+    }
+
+    @Override
     public List<OrderItem> getOrderItemByOrderId(String id) {
         List<OrderItem> list = this.findAll();
         List<OrderItem> rs = new ArrayList<>();
