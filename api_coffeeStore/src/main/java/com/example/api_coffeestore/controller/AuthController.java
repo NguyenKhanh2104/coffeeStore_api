@@ -2,6 +2,7 @@ package com.example.api_coffeestore.controller;
 
 import com.example.api_coffeestore.dto.UserDTO;
 import com.example.api_coffeestore.mapper.UserMapper;
+import com.example.api_coffeestore.message.ResponseMessage;
 import com.example.api_coffeestore.model.ERole;
 import com.example.api_coffeestore.model.Role;
 import com.example.api_coffeestore.model.User;
@@ -11,6 +12,7 @@ import com.example.api_coffeestore.payload.response.JwtResponse;
 import com.example.api_coffeestore.repository.RoleRepo;
 import com.example.api_coffeestore.repository.UserRepo;
 import com.example.api_coffeestore.security.jwt.JwtUtils;
+import com.example.api_coffeestore.service.FileStorageService;
 import com.example.api_coffeestore.service.RoleService;
 import com.example.api_coffeestore.service.impl.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -50,7 +53,8 @@ public class AuthController {
     JwtUtils jwtUtils;
     @Autowired
     UserMapper userMapper;
-
+    @Autowired
+    private FileStorageService storageService;
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -135,4 +139,18 @@ public class AuthController {
 //	public ResponseEntity<?> saveQuiz(@RequestBody @Valid PostRequest postRequest) {
 //		return postHelper.save(postRequest);
 //	}
+@PostMapping("/upload")
+public ResponseMessage uploadFile(@RequestParam("file") MultipartFile file) {
+    String message = "";
+    try {
+        storageService.store(file);
+
+        message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        ResponseMessage r = new ResponseMessage();
+        return r;
+    } catch (Exception e) {
+        message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+        return  new ResponseMessage();
+    }
+}
 }

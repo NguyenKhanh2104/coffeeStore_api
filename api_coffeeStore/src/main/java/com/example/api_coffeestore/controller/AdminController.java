@@ -2,20 +2,27 @@ package com.example.api_coffeestore.controller;
 
 import com.example.api_coffeestore.dto.*;
 import com.example.api_coffeestore.helper.*;
-import com.example.api_coffeestore.model.Category;
-import com.example.api_coffeestore.model.Order;
-import com.example.api_coffeestore.model.Product;
-import com.example.api_coffeestore.model.User;
+import com.example.api_coffeestore.mapper.FileMapper;
+import com.example.api_coffeestore.message.ResponseFile;
+import com.example.api_coffeestore.message.ResponseMessage;
+import com.example.api_coffeestore.model.*;
 import com.example.api_coffeestore.service.CartService;
+import com.example.api_coffeestore.service.FileStorageService;
 import com.example.api_coffeestore.service.OrderItemService;
 import com.example.api_coffeestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -33,9 +40,13 @@ public class AdminController {
     OrderItemService orderItemService;
     @Autowired
     OrderItemHelper orderItemHelper;
+    @Autowired
+    private FileStorageService storageService;
+    @Autowired
+    private FileMapper fileMapper;
 
     @GetMapping("/allProduct")
-    public List<ProductDTO> getAllBook() {
+    public ResponseEntity<?> getAllBook() {
         return productHelper.getAll();
     }
 
@@ -106,6 +117,64 @@ public class AdminController {
     @GetMapping("/getOrderItem/{id}")
     public List<OrderItemDTO> getOrderItemByOrderId(@PathVariable("id") String id) {
         return orderItemHelper.getOrderItemByOrderId(id);
+    }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            storageService.store(file);
+
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
+    }
+
+    @GetMapping("/files")
+    public ResponseEntity<List<ResponseFile>> getListFiles() {
+//        List<FileDB> files = storageService.getAllFiles();
+        List<ResponseFile> rs = new ArrayList<>();
+//        for (FileDB f : files
+//        ) {
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/files/")
+//                    .path(f.getId())
+//                    .toUriString();
+//            ResponseFile resp = new ResponseFile(f.getName(),fileDownloadUri,f.getType(),f.getData().length);
+//            rs.add(resp);
+//        }
+        return ResponseEntity.ok(rs);
+
+
+    }
+
+//                .map(dbFile -> {
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/files/")
+//                    .path(dbFile.getId())
+//                    .toUriString();
+//
+//            return new ResponseFile(
+//                    dbFile.getName(),
+//                    fileDownloadUri,
+//                    dbFile.getType(),
+//                    dbFile.getData().length);
+//        }).collect(Collectors.toList());
+
+
+    @GetMapping("/files/{id}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String id) {
+        FileDB fileDB = storageService.getFile(id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+                .body(fileDB.getData());
     }
 
 }

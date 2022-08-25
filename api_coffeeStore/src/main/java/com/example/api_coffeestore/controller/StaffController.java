@@ -5,17 +5,18 @@ import com.example.api_coffeestore.dto.OrderDTO;
 import com.example.api_coffeestore.dto.OrderItemDTO;
 import com.example.api_coffeestore.dto.ProductDTO;
 import com.example.api_coffeestore.helper.*;
+import com.example.api_coffeestore.message.ResponseMessage;
 import com.example.api_coffeestore.model.*;
 import com.example.api_coffeestore.payload.response.ApiResponse;
 import com.example.api_coffeestore.security.ShoppingConfiguration;
-import com.example.api_coffeestore.service.CartService;
-import com.example.api_coffeestore.service.OrderItemService;
-import com.example.api_coffeestore.service.OrderService;
-import com.example.api_coffeestore.service.UserService;
+import com.example.api_coffeestore.service.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jms.artemis.ArtemisProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -40,7 +41,7 @@ public class StaffController {
     OrderItemHelper orderItemHelper;
 
     @GetMapping("/allProduct")
-    public List<ProductDTO> getAllBook() {
+    public ResponseEntity<?> getAllBook() {
         return productHelper.getAll();
     }
 
@@ -103,4 +104,5 @@ public class StaffController {
     public ResponseEntity<?> getCheckoutsByUserId(@RequestBody HashMap<String, String> getCheckoutRequest) {
         return orderHelper.getCheckoutsByUserId(getCheckoutRequest);
     }
+
 }
