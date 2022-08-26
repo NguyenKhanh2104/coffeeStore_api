@@ -14,7 +14,7 @@ import java.util.*;
 @Setter
 @Getter
 @NoArgsConstructor
-public class    User {
+public class  User {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,15 +34,14 @@ public class    User {
     @Column(name = "fullname")
     private String fullName;
 
-    @Column(name = "img")
-    private String img;
-
     @Column(name = "address")
     private String address;
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "birthday")
-    private Date birthday;
-
+    private String birthday;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "imageProduct")
+    private FileDB imageUser;
     @Column(name = "sex")
     private String sex;
     @OneToMany(mappedBy = "user")
@@ -54,13 +53,12 @@ public class    User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
-    public User( String username,String email, String password , String phone, String fullName, String img, String address, Date birthday, String sex) {
+    public User( String username,String email, String password , String phone, String fullName, String address, String birthday, String sex) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.fullName = fullName;
-        this.img = img;
         this.address = address;
         this.birthday = birthday;
         this.sex = sex;

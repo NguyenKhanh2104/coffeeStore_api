@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,8 +91,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderItem(o.getOrderItem());
         order.setNote(o.getNote());
         order.setTotalPrice(o.getTotalPrice());
-        Date date = new Date();
-        order.setDateCreate(date);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        order.setDateCreate(dtf.format(now));
         order.setUser(o.getUser());
         order.setPayment_type(o.getPayment_type());
         return orderRepo.save(order);

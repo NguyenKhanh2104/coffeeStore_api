@@ -14,12 +14,12 @@ import java.util.Date;
 public class Product {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
     private double price;
     private String description;
-    private String qty;
     private LocalDate dateCreate;
     @ManyToOne()
     @JoinColumn(name = "category_id")

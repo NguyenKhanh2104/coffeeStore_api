@@ -25,8 +25,8 @@ public class ProductDTO {
     private double price;
     private String description;
 
-    private String qty;
+//    private String qty;
     private LocalDate dateCreate;
-    private Integer category;
+    private String category;
     private ResponseFile imageProduct;
 }

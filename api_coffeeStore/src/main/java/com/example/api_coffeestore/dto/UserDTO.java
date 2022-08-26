@@ -1,5 +1,6 @@
 package com.example.api_coffeestore.dto;
 
+import com.example.api_coffeestore.message.ResponseFile;
 import com.example.api_coffeestore.model.ERole;
 import com.example.api_coffeestore.model.Role;
 import lombok.Data;
@@ -15,10 +16,10 @@ import java.util.List;
 public class UserDTO {
     Long id;
     String address;
-    Date birthday;
+    String birthday;
     String email;
     String fullName;
-    String img;
+    ResponseFile imageUser;
     String phone;
     String sex;
     String username;

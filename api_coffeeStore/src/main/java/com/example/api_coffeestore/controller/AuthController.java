@@ -4,6 +4,7 @@ import com.example.api_coffeestore.dto.UserDTO;
 import com.example.api_coffeestore.mapper.UserMapper;
 import com.example.api_coffeestore.message.ResponseMessage;
 import com.example.api_coffeestore.model.ERole;
+import com.example.api_coffeestore.model.FileDB;
 import com.example.api_coffeestore.model.Role;
 import com.example.api_coffeestore.model.User;
 import com.example.api_coffeestore.payload.request.LoginRequest;
@@ -27,11 +28,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -81,7 +80,6 @@ public class AuthController {
                 userDetails.getFullname(),
                 userDetails.getAddress(),
                 userDetails.getBirthday(),
-                userDetails.getImg(),
                 userDetails.getSex(),
                 roles));
     }
@@ -105,7 +103,7 @@ public class AuthController {
         User user = new User(request.getUsername(),
                 request.getEmail(),
                 encoder.encode(request.getPassword()), request.getPhone(), request.getFullName(),
-                request.getImg(), request.getAddress(), request.getBirthday(), request.getSex());
+                 request.getAddress(), request.getBirthday(), request.getSex());
 
         List<Role> roles = roleService.findAll();
         List<Role> rs = new ArrayList<>();
@@ -131,6 +129,8 @@ public class AuthController {
 
 
         user.setRoles(rs);
+        Stream<FileDB> list = storageService.getAllFiles();
+        user.setImageUser(list.sorted(Comparator.comparing(FileDB::getDateCreate).reversed()).findFirst().get());
         userRepository.save(user);
 
         return ResponseEntity.ok("User registered successfully!");

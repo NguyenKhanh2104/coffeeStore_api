@@ -18,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.example.api_coffeestore.model.ERole.ROLE_ADMIN;
+import static com.example.api_coffeestore.model.ERole.ROLE_USER;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -57,9 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/admin/**").permitAll()
-                .antMatchers("/api/auth/**").permitAll();
-
+//                antMatchers("/api/admin/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll().
+        antMatchers("/api/staff /**").hasAnyAuthority(ROLE_USER.name()).
+        antMatchers("/api/admin/**").permitAll();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

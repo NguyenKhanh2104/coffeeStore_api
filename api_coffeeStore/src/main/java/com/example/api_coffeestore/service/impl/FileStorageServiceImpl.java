@@ -9,6 +9,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
@@ -18,7 +20,9 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public FileDB store(MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes(),dtf.format(now));
 
         return fileDBRepository.save(FileDB);
     }

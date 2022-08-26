@@ -17,14 +17,13 @@ public class JwtResponse {
     private String phone;
     private String fullname;
     private String address;
-    private Date birthday;
+    private String birthday;
     private String sex;
-    @JsonIgnore
-    private String img;
+
     private List<String> roles;
 
     public JwtResponse(String accessToken, Long id, String username, String email, String phone,
-                       String fullname, String address, Date birthday, String sex, String img, List<String> roles) {
+                       String fullname, String address, String birthday, String sex, List<String> roles) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
@@ -34,7 +33,7 @@ public class JwtResponse {
         this.address = address;
         this.birthday = birthday;
         this.sex = sex;
-        this.img = img;
+
         this.roles = roles;
 
     }

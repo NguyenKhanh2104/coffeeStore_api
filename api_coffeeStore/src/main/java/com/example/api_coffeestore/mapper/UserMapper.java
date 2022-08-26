@@ -3,14 +3,18 @@ package com.example.api_coffeestore.mapper;
 import com.example.api_coffeestore.dto.ProductDTO;
 import com.example.api_coffeestore.dto.RoleDTO;
 import com.example.api_coffeestore.dto.UserDTO;
+import com.example.api_coffeestore.message.ResponseFile;
+import com.example.api_coffeestore.model.FileDB;
 import com.example.api_coffeestore.model.Product;
 import com.example.api_coffeestore.model.Role;
 import com.example.api_coffeestore.model.User;
 import com.example.api_coffeestore.payload.request.SignupRequest;
+import com.example.api_coffeestore.service.FileStorageService;
 import com.example.api_coffeestore.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,14 +29,22 @@ public class UserMapper {
     RoleMapper roleMapper;
     @Autowired
     RoleService roleService;
-
+    @Autowired
+    FileStorageService fileStorageService;
     public UserDTO toDto(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setAddress(user.getAddress());
         dto.setBirthday(user.getBirthday());
         dto.setEmail(user.getEmail());
-        dto.setImg(user.getImg());
+        FileDB fileDB = fileStorageService.getFile(user.getImageUser().getId());
+        String fileDownloadUri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/files/")
+                .path(fileDB.getId())
+                .toUriString();
+        ResponseFile resp = new ResponseFile(fileDB.getName(),fileDownloadUri,fileDB.getType(),fileDB.getData().length);
+        dto.setImageUser(resp);
         dto.setPhone(user.getPhone());
         dto.setSex(user.getSex());
         dto.setUsername(user.getUsername());
@@ -52,7 +64,6 @@ public class UserMapper {
         user.setAddress(dto.getAddress());
         user.setBirthday(dto.getBirthday());
         user.setEmail(dto.getEmail());
-        user.setImg(dto.getImg());
         user.setPhone(dto.getPhone());
         user.setSex(dto.getSex());
         user.setUsername(dto.getUsername());

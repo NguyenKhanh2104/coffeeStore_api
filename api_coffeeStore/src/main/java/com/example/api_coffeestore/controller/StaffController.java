@@ -41,7 +41,7 @@ public class StaffController {
     OrderItemHelper orderItemHelper;
 
     @GetMapping("/allProduct")
-    public ResponseEntity<?> getAllBook() {
+    public ResponseEntity<?> getAllProduct() {
         return productHelper.getAll();
     }
 

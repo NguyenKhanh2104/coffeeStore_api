@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -100,8 +102,10 @@ public class OrderHelper {
                 checkout.setUser(userService.findById(user_Id));
                 checkout.setNote(addCartRequest.get("note"));
                 checkout.setPayment_type(addCartRequest.get("pay_type"));
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
                 Date date = new Date();
-                checkout.setDateCreate(date);
+                checkout.setDateCreate(dtf.format(now));
                 String da = String.valueOf(date.getTime());
                 checkout.setId("HD" + da);
                 checkout = orderService.saveProductsForCheckout(checkout);
@@ -117,7 +121,6 @@ public class OrderHelper {
                 }
                 checkout.setTotalPrice(total);
                 checkout.setOrderItem(tmp);
-//                checkoutItemService.saveCheckoutItem(tmp);
                 for (OrderItem c : tmp
                 ) {
 
@@ -153,4 +156,16 @@ public class OrderHelper {
     }
 
 
+    public List<Double> getTotalMoney() {
+        double total = 0;
+        List<Double> rs = new ArrayList<>();
+        List<Order> list = orderService.findAll();
+        for (Order o:list
+             ) {
+            total +=o.getTotalPrice();
+
+        }
+        rs.add(total);
+        return rs;
+    }
 }

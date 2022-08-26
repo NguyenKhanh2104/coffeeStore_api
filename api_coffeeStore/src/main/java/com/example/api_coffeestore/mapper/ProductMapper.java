@@ -26,12 +26,11 @@ FileMapper fileMapper;
     public ProductDTO toDto(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
-        dto.setCategory(product.getCategory().getId());
+        dto.setCategory(product.getCategory().getName());
         dto.setDateCreate(product.getDateCreate());
         dto.setDescription(product.getDescription());
         dto.setPrice(product.getPrice());
         dto.setName(product.getName());
-        dto.setQty(product.getQty());
         FileDB fileDB = storageService.getFile(product.getImageProduct().getId());
         String fileDownloadUri = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
@@ -46,9 +45,8 @@ FileMapper fileMapper;
     public Product toEntity(ProductDTO dto) throws Exception {
         Product entity = new Product();
         entity.setId(dto.getId());
-        entity.setQty(dto.getQty());
         entity.setDescription(dto.getDescription());
-        Category cate = categoryService.findById(dto.getCategory());
+        Category cate = categoryService.findByName(dto.getCategory());
         entity.setCategory(cate);
         entity.setName(dto.getName());
         entity.setPrice(dto.getPrice());

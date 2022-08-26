@@ -27,6 +27,6 @@ public class Order {
     User user;
 
     private double totalPrice;
-    private Date dateCreate;
+    private String dateCreate;
     private String note;
 }

@@ -1,10 +1,15 @@
 package com.example.api_coffeestore.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+
 @Table(name = "files")
 public class FileDB {
   @Id
@@ -18,14 +23,15 @@ public class FileDB {
 
   @Lob
   private byte[] data;
-
+  private String dateCreate;
   public FileDB() {
   }
 
-  public FileDB(String name, String type, byte[] data) {
+  public FileDB(String name, String type, byte[] data,String dateCreate) {
     this.name = name;
     this.type = type;
     this.data = data;
+    this.dateCreate = dateCreate;
   }
 
   public String getId() {

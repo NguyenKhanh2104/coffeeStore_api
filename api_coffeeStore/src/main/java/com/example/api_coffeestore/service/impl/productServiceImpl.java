@@ -46,10 +46,11 @@ public class productServiceImpl implements ProductService {
     public Product updateProduct(Long id, Product productDetail) throws Exception {
         Product product = productRepo.findById(id).orElseThrow(() -> new Exception("Product is not found"));
         product.setName(productDetail.getName());
-        product.setQty(productDetail.getQty());
+//        product.setQty(productDetail.getQty());
         product.setCategory(productDetail.getCategory());
         product.setDescription(productDetail.getDescription());
         product.setPrice(productDetail.getPrice());
+        product.setImageProduct(productDetail.getImageProduct());
         return productRepo.save(product);
     }
 

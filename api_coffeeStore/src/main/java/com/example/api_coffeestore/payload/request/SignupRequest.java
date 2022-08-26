@@ -39,6 +39,6 @@ public class SignupRequest {
     private String address;
     @NotBlank
     private String sex;
-    private Date birthday;
+    private String birthday;
 
 }

@@ -17,9 +17,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class ProductHelper {
@@ -56,6 +58,8 @@ public class ProductHelper {
 
     public Product updateProduct(Long id, ProductDTO productDetail) throws Exception {
         Product p = productMapper.toEntity(productDetail);
+        Stream<FileDB> list = fileStorageService.getAllFiles();
+        p.setImageProduct(list.sorted(Comparator.comparing(FileDB::getDateCreate).reversed()).findFirst().get());
         return productService.updateProduct(id, p);
 
 
@@ -76,6 +80,8 @@ public class ProductHelper {
         LocalDate myObj = LocalDate.now();
         productDto.setDateCreate(myObj);
         Product p = productMapper.toEntity(productDto);
+        Stream<FileDB> list = fileStorageService.getAllFiles();
+        p.setImageProduct(list.sorted(Comparator.comparing(FileDB::getDateCreate).reversed()).findFirst().get());
         return productService.create(p);
     }
 

@@ -46,7 +46,7 @@ public class AdminController {
     private FileMapper fileMapper;
 
     @GetMapping("/allProduct")
-    public ResponseEntity<?> getAllBook() {
+    public ResponseEntity<?> getAllProduct() {
         return productHelper.getAll();
     }
 
@@ -66,6 +66,21 @@ public class AdminController {
         return productHelper.updateProduct(id, productDetail);
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+
+            storageService.store(file);
+
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
+    }
+
     @PostMapping(value = "/addProduct", consumes = {"application/json"})
     public Product createBook(@Valid @RequestBody ProductDTO productDto) throws Exception {
         return productHelper.createProduct(productDto);
@@ -77,7 +92,7 @@ public class AdminController {
     }
 
     @GetMapping("/allUser")
-    public List<UserDTO> getAllUser() {
+    public ResponseEntity<?> getAllUser() {
         return userHelper.getAll();
     }
 
@@ -91,6 +106,7 @@ public class AdminController {
     public User createUser(@Valid @RequestBody UserDTO userDto) throws Exception {
         return userHelper.createUser(userDto);
     }
+
 
     @GetMapping("/allOrder")
     public List<OrderDTO> getAllOrder() {
@@ -119,21 +135,6 @@ public class AdminController {
         return orderItemHelper.getOrderItemByOrderId(id);
     }
 
-
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        try {
-            storageService.store(file);
-
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-        }
-    }
-
     @GetMapping("/files")
     public ResponseEntity<List<ResponseFile>> getListFiles() {
 //        List<FileDB> files = storageService.getAllFiles();
@@ -152,21 +153,10 @@ public class AdminController {
 
 
     }
-
-//                .map(dbFile -> {
-//            String fileDownloadUri = ServletUriComponentsBuilder
-//                    .fromCurrentContextPath()
-//                    .path("/files/")
-//                    .path(dbFile.getId())
-//                    .toUriString();
-//
-//            return new ResponseFile(
-//                    dbFile.getName(),
-//                    fileDownloadUri,
-//                    dbFile.getType(),
-//                    dbFile.getData().length);
-//        }).collect(Collectors.toList());
-
+    @GetMapping("/totalMoneyInMonth")
+    public List<Double> getTotalMoney () {
+        return orderHelper.getTotalMoney();
+    }
 
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
@@ -175,6 +165,12 @@ public class AdminController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
                 .body(fileDB.getData());
+    }
+
+    @GetMapping("/getImageUser/{id}")
+    public List<ResponseFile> getImageUser(@PathVariable Long id) throws Exception {
+
+        return userHelper.getImageUser(id);
     }
 
 }

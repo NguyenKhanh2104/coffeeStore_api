@@ -1,11 +1,11 @@
 package com.example.api_coffeestore.service.impl;
 
+import com.example.api_coffeestore.model.FileDB;
 import com.example.api_coffeestore.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
@@ -19,30 +19,30 @@ public class UserDetailsImpl implements UserDetails {
     private String username;
     private String email;
     private String phone;
-    private String fullname;
+    private String fullName;
     private String address;
-    private Date birthday;
+    private String birthday;
     private String sex;
-    @JsonIgnore
-    private String img;
+
+    private FileDB imageUser;
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Long id, String username, String email, String password,
-                           String fullname, String address, Date birthday, String sex,
-                           String img, String phone,
+                           String fullname, String address, String birthday, String sex,
+                           FileDB imageUser, String phone,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.fullname = fullname;
+        this.fullName = fullname;
         this.address = address;
         this.birthday = birthday;
         this.sex = sex;
-        this.img = img;
+        this.imageUser = imageUser;
         this.phone = phone;
         this.authorities = authorities;
     }
@@ -61,7 +61,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getAddress(),
                 user.getBirthday(),
                 user.getSex(),
-                user.getImg(),
+                user.getImageUser(),
                 user.getPhone(),
                 authorities);
     }
@@ -80,23 +80,23 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getFullname() {
-        return fullname;
+        return fullName;
     }
 
     public String getAddress() {
         return address;
 
     }
-    public Date getBirthday(){
+    public String getBirthday(){
         return birthday;
     }
     public String getSex() {
         return sex;
     }
 
-    public String getImg() {
-        return img;
-    }
+   public FileDB getImageUser(){
+        return imageUser;
+   }
 
     public String getPhone() {
         return phone;

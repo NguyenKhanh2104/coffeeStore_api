@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         u.setPhone(user.getPhone());
         u.setFullName(user.getFullName());
         u.setRoles(user.getRoles());
+        u.setImageUser(user.getImageUser());
         u.setUsername(user.getUsername());
         u.setSex(user.getSex());
         return userRepository.save(u);
